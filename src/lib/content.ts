@@ -68,7 +68,11 @@ export function getRelatedPublications(
   limit = 3,
 ): AnyPublication[] {
   return candidates
-    .filter((candidate) => candidate.id !== current.id)
+    .filter(
+      (candidate) =>
+        candidate.id !== current.id ||
+        candidate.collection !== current.collection,
+    )
     .map((candidate) => ({
       candidate,
       score: scoreRelatedPublication(current.data.tags, candidate.data.tags),
