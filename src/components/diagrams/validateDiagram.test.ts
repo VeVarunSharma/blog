@@ -45,4 +45,13 @@ describe('flow diagram validation', () => {
       }),
     ).toThrow('missing target node "missing"');
   });
+
+  it('rejects duplicate edge ids', () => {
+    expect(() =>
+      validateFlowDiagram({
+        ...validDiagram,
+        edges: [validDiagram.edges[0], validDiagram.edges[0]],
+      }),
+    ).toThrow('duplicate edge "source-target"');
+  });
 });
