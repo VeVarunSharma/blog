@@ -18,6 +18,19 @@ const canonical =
   entry.data.canonicalUrl ??
   new URL(publicationPath(entry), Astro.site).toString();
 const image = entry.data.image?.src ?? '/social-card.png';
+const sourceHost = entry.data.sourceUrl
+  ? new URL(entry.data.sourceUrl).hostname.replace(/^www\./, '')
+  : undefined;
+const sourceLabels: Record<string, string> = {
+  'dev.to': 'DEV',
+  'medium.com': 'Medium',
+};
+const sourceLabel = sourceHost
+  ? (sourceLabels[sourceHost] ?? sourceHost)
+  : undefined;
+const sourceAttribution = entry.data.sourcePublication
+  ? `Originally published in ${entry.data.sourcePublication} on ${sourceLabel}`
+  : `Originally published on ${sourceLabel}`;
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'BlogPosting',
@@ -28,11 +41,14 @@ const jsonLd = {
   author: {
     '@type': 'Person',
     name: SITE.author,
-    url: SITE.url,
+    description: SITE.authorRole,
+    url: SITE.authorUrl,
+    sameAs: [SITE.githubUrl],
   },
   publisher: {
     '@type': 'Person',
     name: SITE.author,
+    url: SITE.authorUrl,
   },
   mainEntityOfPage: canonical,
   url: canonical,
@@ -98,10 +114,17 @@ const jsonLd = {
         <slot />
 
         {
-          entry.data.repositoryUrl && (
+          (entry.data.sourceUrl || entry.data.repositoryUrl) && (
             <div class="source-link">
               <span>Source material</span>
-              <a href={entry.data.repositoryUrl}>View repository</a>
+              <div class="source-links">
+                {entry.data.sourceUrl && (
+                  <a href={entry.data.sourceUrl}>{sourceAttribution}</a>
+                )}
+                {entry.data.repositoryUrl && (
+                  <a href={entry.data.repositoryUrl}>View repository</a>
+                )}
+              </div>
             </div>
           )
         }

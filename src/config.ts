@@ -1,10 +1,13 @@
 export const SITE = {
-  title: 'Ve Sharma',
+  title: 'After the Diagram',
   description:
-    'Technical notes and long-form papers about software, systems, and the craft of building.',
+    'Ve Sharma on AI developer platforms, cloud economics, and the engineering systems that turn technical strategy into shipped software.',
   url: 'https://blog.vesharma.dev',
   author: 'Ve Sharma',
+  authorRole: 'Engineer, founder, and technical leader',
+  authorUrl: 'https://www.vesharma.dev',
   githubUrl: 'https://github.com/VeVarunSharma',
+  defaultTheme: 'light',
   themeStorageKey: 've-sharma-theme',
 } as const;
 

@@ -29,17 +29,22 @@ const socialImage = new URL(image, Astro.site).toString();
 const serializedJsonLd = jsonLd
   ? JSON.stringify(jsonLd).replaceAll('<', '\\u003c')
   : '';
+const defaultTheme = SITE.defaultTheme;
+const defaultThemeColor = {
+  light: '#f4f0e7',
+  dark: '#090b0e',
+}[defaultTheme];
 const themeStorageKey = SITE.themeStorageKey;
 ---
 
 <!doctype html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme={defaultTheme}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
-    <script is:inline define:vars={{ themeStorageKey }}>
-      let initialTheme = 'dark';
+    <script is:inline define:vars={{ defaultTheme, themeStorageKey }}>
+      let initialTheme = defaultTheme;
       try {
         const savedTheme = localStorage.getItem(themeStorageKey);
         if (savedTheme === 'light' || savedTheme === 'dark') {
@@ -53,7 +58,7 @@ const themeStorageKey = SITE.themeStorageKey;
 
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#090b0e" />
+    <meta name="theme-color" content={defaultThemeColor} />
     <link rel="canonical" href={canonical} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link

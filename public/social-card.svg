@@ -13,10 +13,10 @@
   <rect width="1200" height="630" fill="url(#glow)"/>
   <rect x="52" y="52" width="1096" height="526" fill="none" stroke="#29323a"/>
   <rect x="86" y="86" width="56" height="56" fill="#0e1217" stroke="#3d4852"/>
-  <text x="99" y="121" fill="#75e0c1" font-family="ui-monospace, monospace" font-size="18" font-weight="700">VS/</text>
-  <text x="165" y="119" fill="#edf1ee" font-family="Arial, sans-serif" font-size="18" font-weight="700" letter-spacing="4">VE SHARMA</text>
-  <text x="86" y="286" fill="#edf1ee" font-family="Arial, sans-serif" font-size="72" font-weight="700" letter-spacing="-4">Notes for building</text>
-  <text x="86" y="374" fill="#75e0c1" font-family="Arial, sans-serif" font-size="72" font-weight="700" letter-spacing="-4">durable systems.</text>
-  <text x="88" y="452" fill="#86918e" font-family="Georgia, serif" font-size="28">Technical posts and long-form white papers.</text>
+  <text x="99" y="121" fill="#75e0c1" font-family="ui-monospace, monospace" font-size="18" font-weight="700">Ve/</text>
+  <text x="165" y="119" fill="#edf1ee" font-family="Arial, sans-serif" font-size="18" font-weight="700" letter-spacing="4">VE SHARMA / AFTER THE DIAGRAM</text>
+  <text x="86" y="286" fill="#edf1ee" font-family="Arial, sans-serif" font-size="72" font-weight="700" letter-spacing="-4">Turning strategy into</text>
+  <text x="86" y="374" fill="#75e0c1" font-family="Arial, sans-serif" font-size="72" font-weight="700" letter-spacing="-4">software that ships.</text>
+  <text x="88" y="452" fill="#86918e" font-family="Georgia, serif" font-size="26">AI developer platforms, cloud economics, and software delivery.</text>
   <text x="88" y="531" fill="#ffb86b" font-family="ui-monospace, monospace" font-size="16" letter-spacing="2">BLOG.VESHARMA.DEV</text>
 </svg>

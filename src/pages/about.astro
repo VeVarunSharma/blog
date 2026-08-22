@@ -6,43 +6,46 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 <BaseLayout
   title="About"
-  description="About Ve Sharma and this independent technical publication."
+  description="About After the Diagram, Ve Sharma's publication on AI developer platforms, cloud economics, and software delivery."
 >
   <div class="wide-shell">
     <PageIntro
-      eyebrow="About the publication"
-      title="Writing for the work after the diagram."
-      description="A place for practical technical notes and longer arguments about how software gets designed, built, and maintained."
+      eyebrow="About After the Diagram"
+      title="Technical strategy is only the beginning."
+      description="I write about what follows: platform choices, cloud economics, and the operating decisions that turn architecture into software people can use."
     />
 
     <div class="about-grid">
       <article class="prose">
-        <h2>Two speeds of writing</h2>
+        <h2>What this publication is</h2>
         <p>
-          Some ideas need a concise post: a pattern, a tradeoff, a useful piece
-          of code, or a diagram that clarifies a system. Others need more room.
-          The white papers are for those longer arguments, with numbered
-          editions, abstracts, and a structure made for careful reading.
+          After the Diagram is my independent publication about AI developer
+          platforms, cloud economics, and agentic software delivery. I examine
+          how architecture, tooling, team design, governance, and adoption shape
+          what actually ships.
         </p>
 
         <p>
-          Both formats share one goal: make the reasoning visible. Code should
-          sit beside context. Diagrams should be explorable when interaction
-          helps. Design should support the material rather than compete with it.
+          Posts are concise field notes: a pattern, tradeoff, implementation
+          detail, or lesson from practice. White papers give the evidence and
+          systems questions more room. Both formats share one goal: make the
+          reasoning visible.
         </p>
 
-        <h2>Built in the open</h2>
+        <h2>Why this perspective</h2>
         <p>
-          The publication is a static Astro site. Posts and papers are MDX
-          files, interactive diagrams are small React islands, and GitHub Pages
-          serves the final HTML. The same source that produces the site is
-          available in the repository.
+          My background spans cloud architecture, full-stack product
+          development, applied AI, and engineering leadership. I co-founded and
+          built a B2B SaaS platform that reached millions of listeners. I have
+          also led engineering teams, advised founders on cloud and AI
+          implementation, and helped organizations adopt developer tools.
         </p>
 
         <p>
-          That architecture is deliberately modest. It keeps the reading
-          experience fast, the content portable, and the operating surface
-          small.
+          I use that range to connect technical choices with their operating
+          context: cost, team capacity, governance, developer experience, and
+          the path from a promising prototype to durable software. The goal is
+          not a universal playbook. It is to make the reasoning visible.
         </p>
       </article>
 
@@ -50,15 +53,23 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         <dl>
           <div>
             <dt>Author</dt>
-            <dd>{SITE.author}</dd>
+            <dd>
+              <a class="text-link" href={SITE.authorUrl} rel="author">
+                {SITE.author}
+              </a>
+            </dd>
+          </div>
+          <div>
+            <dt>Role</dt>
+            <dd>{SITE.authorRole}</dd>
+          </div>
+          <div>
+            <dt>Focus</dt>
+            <dd>AI developer platforms, cloud economics, software delivery</dd>
           </div>
           <div>
             <dt>Formats</dt>
             <dd>Posts and numbered white papers</dd>
-          </div>
-          <div>
-            <dt>Built with</dt>
-            <dd>Astro, MDX, React Flow</dd>
           </div>
           <div>
             <dt>Source</dt>

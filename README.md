@@ -1,7 +1,8 @@
-# Ve Sharma
+# After the Diagram
 
-A dark-first technical publication built with Astro, MDX, and selectively
-hydrated React Flow diagrams.
+Ve Sharma's independent publication on AI developer platforms, cloud economics,
+and engineering delivery. Built with Astro, MDX, and selectively hydrated React
+Flow diagrams.
 
 The site has two content lanes:
 
@@ -56,12 +57,17 @@ Write the article in Markdown.
 Posts are available at `/posts/<slug>/`. Set `draft: true` to keep an entry
 visible in development but exclude it from production.
 
+Use the optional `sourceUrl` field when a post was first published elsewhere.
+The post remains self-canonical and displays a link to the original publication.
+Add `sourcePublication` when the original appeared in a named publication, such
+as `Adauris Engineering`.
+
 ## Add a white paper
 
 Create `src/content/papers/<slug>.mdx` with the shared fields plus:
 
 ```yaml
-paperNumber: 2
+paperNumber: 1
 abstract: 'A self-contained summary of the argument and its scope.'
 status: Published
 series: 'Optional series label'
@@ -79,10 +85,10 @@ The complete schema is in `src/content.config.ts`.
 3. Render it with the shared component.
 
 ```mdx
-import { siteArchitecture } from '../../data/diagrams/siteArchitecture';
+import { myDiagram } from '../../data/diagrams/myDiagram';
 
 <FlowDiagram
-  diagram={siteArchitecture}
+  diagram={myDiagram}
   caption="A concise explanation of what the diagram establishes."
 />
 ```
@@ -94,9 +100,9 @@ only through JavaScript.
 
 ## Themes
 
-Dark mode is the first-visit default. The light theme uses a warm paper palette,
-and the toggle stores the reader's explicit choice in local storage. Theme
-tokens live in `src/styles/tokens.css`; React Flow inherits those same tokens.
+Light mode is the first-visit default and uses a warm paper palette. The toggle
+stores the reader's explicit choice in local storage. Theme tokens live in
+`src/styles/tokens.css`; React Flow inherits those same tokens.
 
 ## CI and deployment
 

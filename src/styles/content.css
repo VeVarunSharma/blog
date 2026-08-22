@@ -369,6 +369,14 @@
   color: var(--ink-soft);
 }
 
+.prose > p > img,
+.prose > p > a:only-child > img {
+  height: auto;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+}
+
 .callout {
   padding: 22px 24px;
   border: 1px solid var(--rule-strong);
@@ -439,6 +447,13 @@
 
 .source-link a {
   color: var(--accent);
+}
+
+.source-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px 20px;
 }
 
 .related-section {

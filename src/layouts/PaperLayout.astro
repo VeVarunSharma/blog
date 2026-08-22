@@ -41,7 +41,9 @@ const jsonLd = {
   author: {
     '@type': 'Person',
     name: SITE.author,
-    url: SITE.url,
+    description: SITE.authorRole,
+    url: SITE.authorUrl,
+    sameAs: [SITE.githubUrl],
   },
   mainEntityOfPage: canonical,
   url: canonical,
