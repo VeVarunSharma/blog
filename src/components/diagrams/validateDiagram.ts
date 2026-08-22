@@ -12,7 +12,16 @@ export function validateFlowDiagram(diagram: FlowDiagramDefinition): void {
     nodeIds.add(node.id);
   }
 
+  const edgeIds = new Set<string>();
+
   for (const edge of diagram.edges) {
+    if (edgeIds.has(edge.id)) {
+      throw new Error(
+        `Flow diagram "${diagram.id}" contains duplicate edge "${edge.id}".`,
+      );
+    }
+    edgeIds.add(edge.id);
+
     if (!nodeIds.has(edge.source)) {
       throw new Error(
         `Flow diagram "${diagram.id}" edge "${edge.id}" references missing source node "${edge.source}".`,
