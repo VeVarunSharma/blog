@@ -18,8 +18,23 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v7.0.1
+        with:
+          fetch-depth: 0
+
+      - name: Detect dependency graph baseline
+        id: baseline
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          if git cat-file -e "${BASE_SHA}:package-lock.json"; then
+            echo "available=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "available=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::Skipping dependency review because the base branch has no package-lock.json yet."
+          fi
 
       - name: Review dependency changes
+        if: steps.baseline.outputs.available == 'true'
         uses: actions/dependency-review-action@v5.0.0
         with:
           fail-on-severity: moderate

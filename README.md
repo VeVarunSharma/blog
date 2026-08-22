@@ -118,7 +118,9 @@ deploy only after all three checks pass.
 Pull requests also receive a `Dependency review` check that fails on newly
 introduced dependencies with moderate-or-higher known vulnerabilities.
 Dependabot opens grouped weekly minor and patch updates for npm and GitHub
-Actions; major updates remain separate for deliberate review.
+Actions; major updates remain separate for deliberate review. The dependency
+review skips only the initial bootstrap PR when the base branch has no lockfile
+from which GitHub can build a dependency graph.
 
 ### One-time GitHub setup
 
