@@ -135,7 +135,7 @@ blog -> vevarunsharma.github.io
 
 4. Enable **Enforce HTTPS** after GitHub validates the DNS record.
 5. In the `main` branch ruleset, require `Unit tests`, `Validation`, and
-   `Lint and format`. Requiring `Dependency review` is also recommended.
+   `Lint and format`.
 
 The custom domain is preserved in `public/CNAME`. Astro's `site` value is
 `https://blog.vesharma.dev`, so no `/blog` project-path `base` is used.
