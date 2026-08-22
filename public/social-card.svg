@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <pattern id="grid" width="36" height="36" patternUnits="userSpaceOnUse">
+      <path d="M36 0H0V36" fill="none" stroke="#1b242b" stroke-width="1"/>
+    </pattern>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientTransform="translate(210 30) rotate(43) scale(560 410)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#75e0c1" stop-opacity=".14"/>
+      <stop offset="1" stop-color="#75e0c1" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="#090b0e"/>
+  <rect width="1200" height="630" fill="url(#grid)"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+  <rect x="52" y="52" width="1096" height="526" fill="none" stroke="#29323a"/>
+  <rect x="86" y="86" width="56" height="56" fill="#0e1217" stroke="#3d4852"/>
+  <text x="99" y="121" fill="#75e0c1" font-family="ui-monospace, monospace" font-size="18" font-weight="700">VS/</text>
+  <text x="165" y="119" fill="#edf1ee" font-family="Arial, sans-serif" font-size="18" font-weight="700" letter-spacing="4">VE SHARMA</text>
+  <text x="86" y="286" fill="#edf1ee" font-family="Arial, sans-serif" font-size="72" font-weight="700" letter-spacing="-4">Notes for building</text>
+  <text x="86" y="374" fill="#75e0c1" font-family="Arial, sans-serif" font-size="72" font-weight="700" letter-spacing="-4">durable systems.</text>
+  <text x="88" y="452" fill="#86918e" font-family="Georgia, serif" font-size="28">Technical posts and long-form white papers.</text>
+  <text x="88" y="531" fill="#ffb86b" font-family="ui-monospace, monospace" font-size="16" letter-spacing="2">BLOG.VESHARMA.DEV</text>
+</svg>

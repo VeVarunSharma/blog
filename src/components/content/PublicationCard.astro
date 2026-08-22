@@ -1,0 +1,32 @@
+---
+import type { AnyPublication } from '../../lib/content';
+import { publicationPath } from '../../lib/content';
+import {
+  formatDate,
+  formatPaperNumber,
+  getReadingMinutes,
+} from '../../lib/publications';
+
+interface Props {
+  entry: AnyPublication;
+}
+
+const { entry } = Astro.props;
+const isPaper = entry.collection === 'papers';
+const marker = isPaper
+  ? `No. ${formatPaperNumber(entry.data.paperNumber)}`
+  : formatDate(entry.data.publishedAt);
+---
+
+<a class="publication-card" href={publicationPath(entry)}>
+  <div class="card-head">
+    <span class="card-kicker">{isPaper ? 'White paper' : 'Post'}</span>
+    <span class="card-number">{marker}</span>
+  </div>
+  <h3>{entry.data.title}</h3>
+  <p class="card-description">{entry.data.description}</p>
+  <div class="card-foot">
+    <span>{getReadingMinutes(entry.body)} min read</span>
+    <span>{entry.data.tags.slice(0, 2).join(' / ')}</span>
+  </div>
+</a>

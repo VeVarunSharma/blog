@@ -1,0 +1,156 @@
+---
+title: 'A durable architecture for technical publishing'
+description: 'How to preserve the strengths of a white paper while gaining the speed, portability, and interactive range of a modern developer publication.'
+abstract: 'Technical publishing often splits into two weak extremes: a document that is authoritative but difficult to evolve, or a web application whose machinery overwhelms the writing. This paper proposes a smaller architecture. Content remains portable MDX, publication structure is enforced through typed collections, pages are rendered statically, and interactive components are isolated to the arguments that require them. The result is a publication that reads like a considered paper, behaves like a good website, and remains understandable from its repository.'
+publishedAt: 2026-08-22
+tags:
+  - Architecture
+  - Astro
+  - Technical Writing
+  - Developer Experience
+draft: false
+featured: true
+paperNumber: 1
+status: Published
+series: 'Publishing systems'
+repositoryUrl: 'https://github.com/VeVarunSharma/blog'
+---
+
+## The document is still the product
+
+Technical publishing has acquired an unusual amount of machinery. A simple argument can arrive wrapped in a database, an API, a client-side framework, a search service, an editor, and an analytics pipeline. Each piece can be justified in isolation. Together they create a system whose operational needs compete with the work it exists to present.
+
+The opposite approach has its own cost. A PDF can preserve a page with precision, but it is awkward on a phone, difficult to link at the section level, and resistant to the code samples and diagrams that make technical ideas concrete. Updating it usually means rebuilding and redistributing an artifact rather than publishing a new version at a stable address.
+
+A durable technical publication should take the strongest property from each format. It should have the hierarchy and editorial calm of a paper, the addressability of the web, and the inspectability of source code.
+
+That begins with a simple rule: **the document is the product; the application is support**.
+
+<Callout title="Design constraint">
+  Every layer must justify itself by improving authorship, comprehension, or
+  delivery. If removing a layer leaves those three qualities intact, the layer
+  probably does not belong in the first version.
+</Callout>
+
+## Two forms, one system
+
+Not every idea deserves the same container. A short post is useful when the subject is a single pattern, a measured observation, or a piece of implementation guidance. A white paper is useful when the reader needs an abstract, a visible sequence of sections, and enough room to examine tradeoffs without compressing them into a list.
+
+Treating those forms as separate content collections makes the distinction enforceable.
+
+Posts require a title, description, publication date, and tags. Papers require those fields plus a paper number, an abstract, and a publication status. The page templates differ because the reading contracts differ. A post leads quickly into its claim. A paper pauses to establish identity, scope, and structure.
+
+The two forms still share their lower layers:
+
+| Layer        | Shared behavior                                                 |
+| ------------ | --------------------------------------------------------------- |
+| Content      | MDX prose, code, links, figures, and callouts                   |
+| Taxonomy     | One normalized tag system across both collections               |
+| Presentation | The same color, type, spacing, and accessibility tokens         |
+| Components   | Reusable figures, callouts, diagrams, and related-content cards |
+| Delivery     | Static HTML deployed through the same build                     |
+
+This structure avoids two common failures. It does not force long-form work into a chronological blog feed, and it does not build a second site for papers. The distinction is meaningful to the reader without becoming duplicate infrastructure for the maintainer.
+
+## Content should survive its renderer
+
+The source of an article should remain useful even if the current site disappears. [MDX](https://mdxjs.com/) is a practical compromise because its default form is Markdown: headings, paragraphs, lists, quotations, links, tables, and fenced code. Those constructs can move to another renderer with limited transformation.
+
+MDX also permits explicit components where Markdown is insufficient. That power requires restraint. A paragraph should not become a proprietary component merely to receive a border. A normal image should not require JavaScript. Components belong at the points where the content gains a real semantic or interactive capability.
+
+The authoring boundary can be summarized this way:
+
+```text
+Markdown first
+  -> semantic Astro component when structure is richer
+  -> React island only when browser interaction is required
+```
+
+The sequence is intentionally progressive. Each step increases capability and cost. Starting at the least powerful layer keeps the majority of the publication portable and fast.
+
+[Typed content collections](https://docs.astro.build/en/guides/content-collections/) reinforce that discipline. Frontmatter is not an unexamined bag of values. Dates are dates. Paper numbers are positive integers. Images require alternate text. Drafts have an explicit state. A build failure is preferable to a publication that quietly omits its canonical URL or renders an invalid date.
+
+## Static delivery is an operating model
+
+Static generation is sometimes described only as a performance technique. Its more important benefit is operational clarity.
+
+At build time, Astro resolves the content, creates every route, emits metadata, and generates the feed and sitemap. At request time, GitHub Pages returns files. There is no production database to migrate, server process to monitor, or content API to secure. The deployed artifact can be inspected with the same tools used to inspect any directory.
+
+This does not make the publication maintenance-free. Dependencies still need updates. Links can decay. Accessibility can regress. But the set of live failure modes is smaller, and most errors move into a build that can stop before deployment.
+
+For an independent publication, that is a valuable exchange. Operational effort is spent on the quality of the artifact rather than the availability of an application server.
+
+## Interactivity should be local
+
+Technical writing occasionally needs behavior that static HTML cannot provide. An architecture map may be too large for one fixed viewport. A sequence may become clearer when a reader can isolate a node. A code demonstration may need controlled input.
+
+The wrong response is to make the whole publication a client-rendered application. The useful response is to establish an island: a bounded interactive component with a clear contract and a static page around it.
+
+In this site, React Flow is such an island. Only an MDX file that declares a flow diagram receives the React bundle. Hydration waits until the canvas approaches the viewport. The diagram has a text summary and caption, so the argument remains available when scripts do not run.
+
+This locality provides three forms of containment:
+
+1. **Performance containment.** Ordinary pages do not download the diagram runtime.
+2. **design containment.** The canvas inherits publication tokens rather than creating a parallel visual language.
+3. **behavior containment.** Readers can inspect and rearrange a view without changing the system relationships represented by its edges.
+
+<Callout title="Interaction policy" tone="signal">
+  Pan, zoom, selection, and node dragging support inspection. Connection
+  creation and reconnection would imply authorship, so the published component
+  disables them.
+</Callout>
+
+The distinction between inspection and authorship is important. An explorable diagram can be generous without pretending to be an editor.
+
+## Dark mode can be an editorial choice
+
+Most theme systems treat the operating system preference as the unquestioned default. A publication can make a different editorial choice.
+
+Here, dark mode is the first-visit design. The canvas is near black rather than pure black; the reading surface is slightly raised; rules replace heavy shadows; a cool green accent marks navigation and interaction; and amber identifies paper numbers and signals. The result borrows cues from development tools without making the page resemble a terminal.
+
+Light mode is not an inverted afterthought. It uses a warm paper surface, dark green accent, and the same hierarchy. A reader can switch at any time, and that choice is stored locally. A small script applies the stored theme before the page paints, preventing the bright flash that would otherwise punish a returning dark-mode reader.
+
+The body type remains oriented toward long reading in both modes. Monospace is reserved for metadata, labels, code, and the small pieces of interface where its rhythm communicates structure. Using it everywhere would turn a useful accent into texture.
+
+## The repository is part of the publication
+
+An open repository does more than prove where the site came from. It can make the publishing model legible.
+
+A reader or contributor should be able to answer practical questions without tracing framework internals:
+
+- Where does a new post go?
+- Which fields are required for a paper?
+- How is a tag URL formed?
+- What behavior is permitted inside a diagram?
+- Which command proves the static build is valid?
+- What deploys when the main branch changes?
+
+The answers belong in a concise README and in code whose names match the concepts on the site. `posts` and `papers` should be visible directories. A `FlowDiagram` should be a component rather than a collection of unexplained props copied between files. Deployment should be a short workflow built from the official Pages action.
+
+This is documentation as architecture: not a separate description of a mysterious system, but a map whose labels correspond to the things a maintainer can actually find.
+
+## A standard for the first version
+
+The first version of a publication should be judged by what it makes easy and what it refuses to make necessary.
+
+It should make these actions easy:
+
+- write in a portable text format;
+- publish a short post or a numbered paper;
+- add code, a figure, or a deliberately interactive diagram;
+- share a stable URL with complete metadata;
+- read on a small screen, with a keyboard, in dark or light mode;
+- build the entire public artifact before deployment.
+
+It should not require these systems:
+
+- a production content database;
+- a server-side rendering process;
+- an authentication layer;
+- a client framework on every page;
+- a bespoke editor before the content model is proven;
+- a second infrastructure stack for long-form work.
+
+Future needs may justify some of those systems. Search can become valuable as the archive grows. A local authoring interface can help when the content schema stabilizes. Analytics may answer a real editorial question. The architecture should leave room for those choices without pretending they are free.
+
+Durability does not come from avoiding change. It comes from ensuring that change begins from understandable source, explicit boundaries, and an artifact that remains useful without the machinery that produced it.

@@ -1,0 +1,20 @@
+---
+import { SITE } from '../../config';
+---
+
+<footer class="site-footer">
+  <div class="footer-inner wide-shell">
+    <div>
+      <p class="footer-title">{SITE.title}</p>
+      <p class="footer-copy">
+        Independent technical writing, built as static files and published in
+        the open.
+      </p>
+    </div>
+    <nav class="footer-links" aria-label="Footer navigation">
+      <a href="/rss.xml">RSS</a>
+      <a href={SITE.githubUrl} rel="me">GitHub</a>
+      <a href="/about/">About</a>
+    </nav>
+  </div>
+</footer>

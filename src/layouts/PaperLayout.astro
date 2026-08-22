@@ -1,0 +1,132 @@
+---
+import type { AnyPublication, PaperEntry } from '../lib/content';
+import { publicationPath } from '../lib/content';
+import {
+  formatDate,
+  formatPaperNumber,
+  getReadingMinutes,
+} from '../lib/publications';
+import { SITE } from '../config';
+import CodeEnhancer from '../components/content/CodeEnhancer.astro';
+import RelatedContent from '../components/content/RelatedContent.astro';
+import TableOfContents from '../components/content/TableOfContents.astro';
+import TagList from '../components/content/TagList.astro';
+import BaseLayout from './BaseLayout.astro';
+
+interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+interface Props {
+  entry: PaperEntry;
+  headings: Heading[];
+  related: AnyPublication[];
+}
+
+const { entry, headings, related } = Astro.props;
+const canonical =
+  entry.data.canonicalUrl ??
+  new URL(publicationPath(entry), Astro.site).toString();
+const image = entry.data.image?.src ?? '/social-card.png';
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'TechArticle',
+  headline: entry.data.title,
+  abstract: entry.data.abstract,
+  description: entry.data.description,
+  datePublished: entry.data.publishedAt.toISOString(),
+  dateModified: (entry.data.updatedAt ?? entry.data.publishedAt).toISOString(),
+  author: {
+    '@type': 'Person',
+    name: SITE.author,
+    url: SITE.url,
+  },
+  mainEntityOfPage: canonical,
+  url: canonical,
+  image: new URL(image, Astro.site).toString(),
+  keywords: entry.data.tags.join(', '),
+};
+---
+
+<BaseLayout
+  title={entry.data.title}
+  description={entry.data.description}
+  canonicalUrl={canonical}
+  image={image}
+  type="article"
+  jsonLd={jsonLd}
+>
+  <article class="reader-shell">
+    <header class="reader-header">
+      <div class="paper-header-grid">
+        <div
+          class="paper-number"
+          aria-label={`White paper ${entry.data.paperNumber}`}
+        >
+          No.{formatPaperNumber(entry.data.paperNumber)}
+          {
+            entry.data.series && (
+              <span class="paper-series">{entry.data.series}</span>
+            )
+          }
+        </div>
+        <div>
+          <p class="reader-kind">White paper / {entry.data.status}</p>
+          <h1 class="reader-title">{entry.data.title}</h1>
+          <p class="reader-description">{entry.data.description}</p>
+
+          <div class="reader-metadata">
+            <div class="metadata-item">
+              <span class="metadata-label">Author</span>
+              <span class="metadata-value">{SITE.author}</span>
+            </div>
+            <div class="metadata-item">
+              <span class="metadata-label">Published</span>
+              <time
+                class="metadata-value"
+                datetime={entry.data.publishedAt.toISOString()}
+              >
+                {formatDate(entry.data.publishedAt)}
+              </time>
+            </div>
+            <div class="metadata-item">
+              <span class="metadata-label">Reading time</span>
+              <span class="metadata-value">
+                {getReadingMinutes(entry.body)} min
+              </span>
+            </div>
+          </div>
+          <div class="reader-tags">
+            <TagList tags={entry.data.tags} />
+          </div>
+        </div>
+      </div>
+
+      <section class="abstract-panel" aria-labelledby="abstract-heading">
+        <h2 id="abstract-heading">Abstract</h2>
+        <p>{entry.data.abstract}</p>
+      </section>
+    </header>
+
+    <div class="reader-grid">
+      <TableOfContents headings={headings} />
+      <div class="prose">
+        <slot />
+
+        {
+          entry.data.repositoryUrl && (
+            <div class="source-link">
+              <span>Source material</span>
+              <a href={entry.data.repositoryUrl}>View repository</a>
+            </div>
+          )
+        }
+
+        <RelatedContent entries={related} />
+      </div>
+    </div>
+  </article>
+  <CodeEnhancer />
+</BaseLayout>

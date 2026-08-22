@@ -1,0 +1,26 @@
+---
+import type { AnyPublication } from '../../lib/content';
+import { collectionLabel, publicationPath } from '../../lib/content';
+
+interface Props {
+  entries: AnyPublication[];
+}
+
+const { entries } = Astro.props;
+---
+
+{
+  entries.length > 0 && (
+    <aside class="related-section" aria-labelledby="related-heading">
+      <h2 id="related-heading">Continue reading</h2>
+      <div class="related-grid">
+        {entries.map((entry) => (
+          <a class="related-card" href={publicationPath(entry)}>
+            <span>{collectionLabel(entry.collection)}</span>
+            <h3>{entry.data.title}</h3>
+          </a>
+        ))}
+      </div>
+    </aside>
+  )
+}

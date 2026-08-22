@@ -1,0 +1,84 @@
+---
+import { SITE } from '../../config';
+---
+
+<button
+  class="theme-toggle"
+  type="button"
+  data-theme-toggle
+  data-storage-key={SITE.themeStorageKey}
+  aria-label="Switch to light theme"
+  title="Switch to light theme"
+>
+  <svg
+    class="icon-moon"
+    aria-hidden="true"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="1.8"
+  >
+    <path d="M20.2 15.2A8 8 0 0 1 8.8 3.8 8.1 8.1 0 1 0 20.2 15.2Z"></path>
+  </svg>
+  <svg
+    class="icon-sun"
+    aria-hidden="true"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="1.8"
+  >
+    <circle cx="12" cy="12" r="3.5"></circle>
+    <path
+      d="M12 2v2.2M12 19.8V22M4.9 4.9l1.6 1.6M17.5 17.5l1.6 1.6M2 12h2.2M19.8 12H22M4.9 19.1l1.6-1.6M17.5 6.5l1.6-1.6"
+    ></path>
+  </svg>
+</button>
+
+<script>
+  function updateThemeColor(theme: string) {
+    const color = theme === 'light' ? '#f4f0e7' : '#090b0e';
+    document
+      .querySelector('meta[name="theme-color"]')
+      ?.setAttribute('content', color);
+  }
+
+  function updateThemeToggle(button: HTMLButtonElement, theme: string) {
+    const nextTheme = theme === 'dark' ? 'light' : 'dark';
+    const label = `Switch to ${nextTheme} theme`;
+    button.setAttribute('aria-label', label);
+    button.title = label;
+    updateThemeColor(theme);
+  }
+
+  for (const element of document.querySelectorAll('[data-theme-toggle]')) {
+    if (!(element instanceof HTMLButtonElement)) continue;
+
+    const currentTheme =
+      document.documentElement.dataset.theme === 'light' ? 'light' : 'dark';
+    updateThemeToggle(element, currentTheme);
+
+    element.addEventListener('click', () => {
+      const theme =
+        document.documentElement.dataset.theme === 'light' ? 'light' : 'dark';
+      const nextTheme = theme === 'dark' ? 'light' : 'dark';
+      document.documentElement.dataset.theme = nextTheme;
+
+      const storageKey = element.dataset.storageKey;
+      if (storageKey) {
+        try {
+          localStorage.setItem(storageKey, nextTheme);
+        } catch (error) {
+          console.warn('Theme preference could not be saved.', error);
+        }
+      }
+
+      updateThemeToggle(element, nextTheme);
+      window.dispatchEvent(
+        new CustomEvent('publication-theme-change', {
+          detail: { theme: nextTheme },
+        }),
+      );
+    });
+  }
+</script>

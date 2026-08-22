@@ -1,0 +1,52 @@
+---
+import { NAV_ITEMS, SITE } from '../../config';
+import ThemeToggle from './ThemeToggle.astro';
+
+const path = Astro.url.pathname;
+const isCurrent = (href: string) =>
+  href === '/' ? path === '/' : path.startsWith(href);
+---
+
+<header class="site-header">
+  <div class="header-inner wide-shell">
+    <a class="brand" href="/" aria-label={`${SITE.title} home`}>
+      <span class="brand-mark" aria-hidden="true">VS/</span>
+      <span class="brand-name">{SITE.title}</span>
+    </a>
+
+    <div class="header-trail">
+      <nav class="desktop-nav" aria-label="Primary navigation">
+        {
+          NAV_ITEMS.map((item) => (
+            <a
+              href={item.href}
+              aria-current={isCurrent(item.href) ? 'page' : undefined}
+            >
+              {item.label}
+            </a>
+          ))
+        }
+      </nav>
+
+      <ThemeToggle />
+
+      <details class="mobile-menu">
+        <summary aria-label="Open navigation">
+          <span aria-hidden="true"></span>
+        </summary>
+        <nav class="mobile-nav" aria-label="Mobile navigation">
+          {
+            NAV_ITEMS.map((item) => (
+              <a
+                href={item.href}
+                aria-current={isCurrent(item.href) ? 'page' : undefined}
+              >
+                {item.label}
+              </a>
+            ))
+          }
+        </nav>
+      </details>
+    </div>
+  </div>
+</header>

@@ -1,0 +1,50 @@
+---
+import IndexRow from '../../components/content/IndexRow.astro';
+import PageIntro from '../../components/PageIntro.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import {
+  getAllPublications,
+  getAllTags,
+  type AnyPublication,
+} from '../../lib/content';
+import { displayTag, normalizeTag } from '../../lib/publications';
+
+interface Props {
+  tag: string;
+  entries: AnyPublication[];
+}
+
+export async function getStaticPaths() {
+  const allEntries = await getAllPublications();
+  const tags = getAllTags(allEntries);
+
+  return [...tags.keys()].map((tag) => ({
+    params: { tag },
+    props: {
+      tag,
+      entries: allEntries.filter((entry) =>
+        entry.data.tags.some((entryTag) => normalizeTag(entryTag) === tag),
+      ),
+    },
+  }));
+}
+
+const { tag, entries } = Astro.props;
+const label = displayTag(tag);
+---
+
+<BaseLayout
+  title={label}
+  description={`Posts and white papers filed under ${label}.`}
+>
+  <div class="wide-shell">
+    <PageIntro
+      eyebrow="Topic"
+      title={label}
+      description={`${entries.length} ${entries.length === 1 ? 'entry' : 'entries'} across posts and white papers.`}
+    />
+    <div class="index-list">
+      {entries.map((entry) => <IndexRow entry={entry} />)}
+    </div>
+  </div>
+</BaseLayout>

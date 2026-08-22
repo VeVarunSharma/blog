@@ -1,0 +1,32 @@
+---
+import IndexRow from '../../components/content/IndexRow.astro';
+import PageIntro from '../../components/PageIntro.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getPosts } from '../../lib/content';
+
+const posts = await getPosts();
+---
+
+<BaseLayout
+  title="Posts"
+  description="Short technical articles, architecture notes, and practical observations from Ve Sharma."
+>
+  <div class="wide-shell">
+    <PageIntro
+      eyebrow="Articles and field notes"
+      title="Posts"
+      description="Shorter pieces for ideas that benefit from code, diagrams, and direct explanation without becoming a full paper."
+    />
+    {
+      posts.length > 0 ? (
+        <div class="index-list">
+          {posts.map((entry) => (
+            <IndexRow entry={entry} />
+          ))}
+        </div>
+      ) : (
+        <p class="empty-state">The first post is being written.</p>
+      )
+    }
+  </div>
+</BaseLayout>
