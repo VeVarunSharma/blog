@@ -1,0 +1,34 @@
+---
+import PageIntro from '../../components/PageIntro.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getAllPublications, getAllTags } from '../../lib/content';
+import { displayTag } from '../../lib/publications';
+
+const entries = await getAllPublications();
+const tags = getAllTags(entries);
+---
+
+<BaseLayout
+  title="Tags"
+  description="Browse Ve Sharma posts and white papers by topic."
+>
+  <div class="wide-shell">
+    <PageIntro
+      eyebrow="One taxonomy, two formats"
+      title="Tags"
+      description="Topics connect concise posts with the longer papers that develop the same ideas in depth."
+    />
+    <div class="tags-cloud">
+      {
+        [...tags.entries()].map(([tag, count]) => (
+          <a class="tag-card" href={`/tags/${tag}/`}>
+            <span>{displayTag(tag)}</span>
+            <span>
+              {count} {count === 1 ? 'entry' : 'entries'}
+            </span>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</BaseLayout>

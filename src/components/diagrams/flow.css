@@ -1,0 +1,195 @@
+.flow-figure {
+  width: min(1080px, calc(100vw - 40px));
+  margin-left: 50%;
+  transform: translateX(-50%);
+  border: 1px solid var(--rule);
+  background: var(--surface);
+  font-family: var(--font-display);
+}
+
+.flow-heading {
+  padding: 15px 18px;
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 24px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.flow-heading span {
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.flow-heading h3 {
+  margin: 4px 0 0;
+  font-size: 1.05rem;
+  letter-spacing: -0.02em;
+}
+
+.flow-heading p {
+  max-width: 48ch;
+  margin: 0;
+  color: var(--ink-muted);
+  font-family: var(--font-mono);
+  font-size: 0.61rem;
+  line-height: 1.5;
+  text-align: right;
+}
+
+.flow-embed {
+  position: relative;
+  height: var(--flow-height);
+  min-height: 360px;
+}
+
+.flow-embed > astro-island {
+  height: 100%;
+  display: block;
+}
+
+.flow-embed > astro-island[ssr]::after {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: var(--ink-muted);
+  background: var(--surface);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  content: 'Loading interactive diagram...';
+}
+
+.flow-embed .react-flow {
+  --xy-background-color: var(--surface);
+  --xy-edge-stroke-default: var(--flow-edge);
+  --xy-edge-stroke-width-default: 1.5;
+  --xy-attribution-background-color: var(--surface);
+  --xy-controls-button-background-color-default: var(--surface-raised);
+  --xy-controls-button-background-color-hover-default: var(--surface-soft);
+  --xy-controls-button-color-default: var(--ink-soft);
+  --xy-controls-button-border-color-default: var(--rule);
+  --xy-minimap-background-color-default: var(--surface-raised);
+}
+
+.flow-node {
+  width: 190px;
+  min-height: 92px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border: 1px solid var(--rule-strong);
+  border-radius: 6px;
+  color: var(--ink);
+  background: var(--flow-node);
+  box-shadow: 0 10px 25px var(--shadow);
+  transition:
+    border-color var(--ease),
+    background var(--ease),
+    transform var(--ease);
+}
+
+.flow-node[data-tone='accent'] {
+  border-top: 3px solid var(--accent);
+}
+
+.flow-node[data-tone='signal'] {
+  border-top: 3px solid var(--signal);
+}
+
+.flow-node[data-selected='true'] {
+  border-color: var(--accent);
+  background: var(--flow-node-selected);
+  transform: translateY(-2px);
+}
+
+.flow-node-eyebrow {
+  margin-bottom: 5px;
+  color: var(--ink-muted);
+  font-family: var(--font-mono);
+  font-size: 0.56rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.flow-node strong {
+  font-size: 0.86rem;
+  line-height: 1.2;
+}
+
+.flow-node-detail {
+  margin-top: 5px;
+  color: var(--ink-muted);
+  font-size: 0.65rem;
+  line-height: 1.35;
+}
+
+.flow-handle {
+  width: 7px !important;
+  height: 7px !important;
+  border: 1px solid var(--surface) !important;
+  background: var(--accent) !important;
+}
+
+.flow-reset {
+  padding: 7px 9px;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  color: var(--ink-muted);
+  background: var(--surface-raised);
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.flow-reset:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.flow-fallback {
+  height: 100%;
+  margin: 0;
+  padding: 40px;
+  display: grid;
+  place-items: center;
+  color: var(--ink-muted);
+  text-align: center;
+}
+
+.flow-caption {
+  margin: 0;
+  padding: 11px 18px;
+  border-top: 1px solid var(--rule);
+}
+
+@media (max-width: 700px) {
+  .flow-figure {
+    width: calc(100vw - 28px);
+  }
+
+  .flow-heading {
+    align-items: start;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .flow-heading p {
+    text-align: left;
+  }
+
+  .flow-minimap {
+    display: none;
+  }
+}

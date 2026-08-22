@@ -1,0 +1,31 @@
+<script>
+  for (const pre of document.querySelectorAll('.prose pre')) {
+    if (pre.querySelector('.code-copy')) continue;
+
+    const code = pre.querySelector('code');
+    if (!code) continue;
+
+    const button = document.createElement('button');
+    button.className = 'code-copy';
+    button.type = 'button';
+    button.textContent = 'Copy';
+    button.setAttribute('aria-label', 'Copy code to clipboard');
+
+    button.addEventListener('click', () => {
+      navigator.clipboard
+        .writeText(code.textContent ?? '')
+        .then(() => {
+          button.textContent = 'Copied';
+          window.setTimeout(() => {
+            button.textContent = 'Copy';
+          }, 1600);
+        })
+        .catch((error) => {
+          console.error('Code could not be copied.', error);
+          button.textContent = 'Failed';
+        });
+    });
+
+    pre.append(button);
+  }
+</script>

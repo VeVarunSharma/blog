@@ -1,0 +1,41 @@
+---
+import FlowCanvas from './FlowCanvas';
+import type { FlowDiagramDefinition } from './types';
+import { validateFlowDiagram } from './validateDiagram';
+
+interface Props {
+  diagram: FlowDiagramDefinition;
+  caption?: string;
+}
+
+const { diagram, caption } = Astro.props;
+validateFlowDiagram(diagram);
+const height = diagram.height ?? 500;
+---
+
+<figure
+  class="flow-figure"
+  style={`--flow-height: ${height}px`}
+  aria-labelledby={`flow-title-${diagram.id}`}
+>
+  <div class="flow-heading">
+    <div>
+      <span>Interactive diagram</span>
+      <h3 id={`flow-title-${diagram.id}`}>
+        {diagram.title}
+      </h3>
+    </div>
+    <p>
+      Drag nodes to explore. Drag the canvas to pan. Use the controls to zoom.
+    </p>
+  </div>
+  <div class="flow-embed">
+    <FlowCanvas client:visible diagram={diagram} />
+    <noscript>
+      <p class="flow-fallback">{diagram.summary}</p>
+    </noscript>
+  </div>
+  <figcaption class="flow-caption">
+    {caption ?? diagram.summary}
+  </figcaption>
+</figure>

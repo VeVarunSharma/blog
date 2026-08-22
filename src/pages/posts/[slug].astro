@@ -1,0 +1,42 @@
+---
+import { render } from 'astro:content';
+import Callout from '../../components/content/Callout.astro';
+import Figure from '../../components/content/Figure.astro';
+import FlowDiagram from '../../components/diagrams/FlowDiagram.astro';
+import PostLayout from '../../layouts/PostLayout.astro';
+import {
+  getAllPublications,
+  getPosts,
+  getRelatedPublications,
+  type AnyPublication,
+  type PostEntry,
+} from '../../lib/content';
+
+interface Props {
+  entry: PostEntry;
+  related: AnyPublication[];
+}
+
+export async function getStaticPaths() {
+  const [posts, allEntries] = await Promise.all([
+    getPosts(),
+    getAllPublications(),
+  ]);
+
+  return posts.map((entry) => ({
+    params: { slug: entry.id },
+    props: {
+      entry,
+      related: getRelatedPublications(entry, allEntries),
+    },
+  }));
+}
+
+const { entry, related } = Astro.props;
+const { Content } = await render(entry);
+const components = { Callout, Figure, FlowDiagram };
+---
+
+<PostLayout entry={entry} related={related}>
+  <Content components={components} />
+</PostLayout>

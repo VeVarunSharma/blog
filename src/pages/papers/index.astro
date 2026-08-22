@@ -1,0 +1,32 @@
+---
+import IndexRow from '../../components/content/IndexRow.astro';
+import PageIntro from '../../components/PageIntro.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getPapers } from '../../lib/content';
+
+const papers = await getPapers();
+---
+
+<BaseLayout
+  title="White papers"
+  description="Numbered long-form technical papers by Ve Sharma."
+>
+  <div class="wide-shell">
+    <PageIntro
+      eyebrow="Numbered long-form work"
+      title="White papers"
+      description="Deeper arguments about architecture, engineering practice, and the systems around software. Each paper is designed to stand on its own."
+    />
+    {
+      papers.length > 0 ? (
+        <div class="index-list">
+          {papers.map((entry) => (
+            <IndexRow entry={entry} />
+          ))}
+        </div>
+      ) : (
+        <p class="empty-state">The first white paper is being prepared.</p>
+      )
+    }
+  </div>
+</BaseLayout>
