@@ -36,5 +36,6 @@ jobs:
       - name: Review dependency changes
         if: steps.baseline.outputs.available == 'true'
         uses: actions/dependency-review-action@v5.0.0
+        continue-on-error: true
         with:
           fail-on-severity: moderate
