@@ -35,13 +35,13 @@ const label = displayTag(tag);
 
 <BaseLayout
   title={label}
-  description={`Posts and white papers filed under ${label}.`}
+  description={`After the Diagram writing on ${label}.`}
 >
   <div class="wide-shell">
     <PageIntro
       eyebrow="Topic"
       title={label}
-      description={`${entries.length} ${entries.length === 1 ? 'entry' : 'entries'} across posts and white papers.`}
+      description={`${entries.length} ${entries.length === 1 ? 'entry' : 'entries'} across field notes and white papers.`}
     />
     <div class="index-list">
       {entries.map((entry) => <IndexRow entry={entry} />)}

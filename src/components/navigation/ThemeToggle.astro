@@ -1,5 +1,10 @@
 ---
 import { SITE } from '../../config';
+
+const defaultNextTheme = {
+  light: 'dark',
+  dark: 'light',
+}[SITE.defaultTheme];
 ---
 
 <button
@@ -7,8 +12,8 @@ import { SITE } from '../../config';
   type="button"
   data-theme-toggle
   data-storage-key={SITE.themeStorageKey}
-  aria-label="Switch to light theme"
-  title="Switch to light theme"
+  aria-label={`Switch to ${defaultNextTheme} theme`}
+  title={`Switch to ${defaultNextTheme} theme`}
 >
   <svg
     class="icon-moon"

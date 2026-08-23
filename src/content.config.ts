@@ -16,6 +16,8 @@ const sharedFields = {
       alt: z.string().min(1),
     })
     .optional(),
+  sourceUrl: z.url().optional(),
+  sourcePublication: z.string().min(1).optional(),
   repositoryUrl: z.url().optional(),
   canonicalUrl: z.url().optional(),
 };
