@@ -11,6 +11,11 @@ draft: false
 featured: false
 ---
 
+import {
+  apmDecisionFlow,
+  enterpriseAgentControlPlane,
+} from '../../data/diagrams/enterpriseAgentManagement';
+
 ## TL;DR for the Busy Platform Team
 
 - Use an **enterprise-managed plugin** to package agents, skills, hooks, rules, and MCP configuration.
@@ -35,6 +40,11 @@ The answer is not “pick the best one.” They operate at different layers.
 | **Portability** | How do we reuse them across agent harnesses? | Agent Package Manager, optionally |
 
 That is the mental model. The plugin is the product. Managed settings are the guardrails. APM is the portability and supply-chain layer when you actually need one.
+
+<FlowDiagram
+  diagram={enterpriseAgentControlPlane}
+  caption="Keep delivery, enterprise policy, and optional dependency management as separate layers with explicit ownership."
+/>
 
 ## The Architecture I Would Start With
 
@@ -219,6 +229,11 @@ apm audit --ci
 APM generates `apm.lock.yaml`, pinning resolved commits and content hashes. That is useful when an auditor asks what agent content was actually installed, not just what the manifest requested.
 
 But APM is an install-time gate, not a runtime sandbox. It does not replace Copilot permissions, MCP allowlists, or sandbox settings.
+
+<FlowDiagram
+  diagram={apmDecisionFlow}
+  caption="Start native to Copilot. Add APM only when portability or stronger dependency evidence creates a real requirement."
+/>
 
 ## The Ownership Rule
 
